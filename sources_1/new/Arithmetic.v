@@ -152,3 +152,120 @@ module Adder(
     FA FA_30(.iA(iData_a[30]),.iB(iData_b[30]),.iC(oC30),.oS(oData[30]),.oC(oC31));
     FA FA_31(.iA(iData_a[31]),.iB(iData_b[31]),.iC(oC31),.oS(oData[31]),.oC(oData_C));
 endmodule
+
+module Ander(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] c
+);
+    and and_0(a[0], b[0], c[0]);
+    and and_1(a[1], b[1], c[1]);
+    and and_2(a[2], b[2], c[2]);
+    and and_3(a[3], b[3], c[3]);
+    and and_4(a[4], b[4], c[4]);
+    and and_5(a[5], b[5], c[5]);
+    and and_6(a[6], b[6], c[6]);
+    and and_7(a[7], b[7], c[7]);
+    and and_8(a[8], b[8], c[8]);
+    and and_9(a[9], b[9], c[9]);
+    and and_10(a[10], b[10], c[10]);
+    and and_11(a[11], b[11], c[11]);
+    and and_12(a[12], b[12], c[12]);
+    and and_13(a[13], b[13], c[13]);
+    and and_14(a[14], b[14], c[14]);
+    and and_15(a[15], b[15], c[15]);
+    and and_16(a[16], b[16], c[16]);
+    and and_17(a[17], b[17], c[17]);
+    and and_18(a[18], b[18], c[18]);
+    and and_19(a[19], b[19], c[19]);
+    and and_20(a[20], b[20], c[20]);
+    and and_21(a[21], b[21], c[21]);
+    and and_22(a[22], b[22], c[22]);
+    and and_23(a[23], b[23], c[23]);
+    and and_24(a[24], b[24], c[24]);
+    and and_25(a[25], b[25], c[25]);
+    and and_26(a[26], b[26], c[26]);
+    and and_27(a[27], b[27], c[27]);
+    and and_28(a[28], b[28], c[28]);
+    and and_29(a[29], b[29], c[29]);
+    and and_30(a[30], b[30], c[30]);
+    and and_31(a[31], b[31], c[31]);
+endmodule
+
+module Xorer(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] c
+);
+    xor xor_0(a[0], b[0], c[0]);
+    xor xor_1(a[1], b[1], c[1]);
+    xor xor_2(a[2], b[2], c[2]);
+    xor xor_3(a[3], b[3], c[3]);
+    xor xor_4(a[4], b[4], c[4]);
+    xor xor_5(a[5], b[5], c[5]);
+    xor xor_6(a[6], b[6], c[6]);
+    xor xor_7(a[7], b[7], c[7]);
+    xor xor_8(a[8], b[8], c[8]);
+    xor xor_9(a[9], b[9], c[9]);
+    xor xor_10(a[10], b[10], c[10]);
+    xor xor_11(a[11], b[11], c[11]);
+    xor xor_12(a[12], b[12], c[12]);
+    xor xor_13(a[13], b[13], c[13]);
+    xor xor_14(a[14], b[14], c[14]);
+    xor xor_15(a[15], b[15], c[15]);
+    xor xor_16(a[16], b[16], c[16]);
+    xor xor_17(a[17], b[17], c[17]);
+    xor xor_18(a[18], b[18], c[18]);
+    xor xor_19(a[19], b[19], c[19]);
+    xor xor_20(a[20], b[20], c[20]);
+    xor xor_21(a[21], b[21], c[21]);
+    xor xor_22(a[22], b[22], c[22]);
+    xor xor_23(a[23], b[23], c[23]);
+    xor xor_24(a[24], b[24], c[24]);
+    xor xor_25(a[25], b[25], c[25]);
+    xor xor_26(a[26], b[26], c[26]);
+    xor xor_27(a[27], b[27], c[27]);
+    xor xor_28(a[28], b[28], c[28]);
+    xor xor_29(a[29], b[29], c[29]);
+    xor xor_30(a[30], b[30], c[30]);
+    xor xor_31(a[31], b[31], c[31]);
+endmodule
+
+module Orer(
+    input [31:0] a,
+    input [31:0] b,
+    output [31:0] c
+);
+    or or_0(a[0], b[0], c[0]);
+    or or_1(a[1], b[1], c[1]);
+    or or_2(a[2], b[2], c[2]);
+    or or_3(a[3], b[3], c[3]);
+    or or_4(a[4], b[4], c[4]);
+    or or_5(a[5], b[5], c[5]);
+    or or_6(a[6], b[6], c[6]);
+    or or_7(a[7], b[7], c[7]);
+    or or_8(a[8], b[8], c[8]);
+    or or_9(a[9], b[9], c[9]);
+    or or_10(a[10], b[10], c[10]);
+    or or_11(a[11], b[11], c[11]);
+    or or_12(a[12], b[12], c[12]);
+    or or_13(a[13], b[13], c[13]);
+    or or_14(a[14], b[14], c[14]);
+    or or_15(a[15], b[15], c[15]);
+    or or_16(a[16], b[16], c[16]);
+    or or_17(a[17], b[17], c[17]);
+    or or_18(a[18], b[18], c[18]);
+    or or_19(a[19], b[19], c[19]);
+    or or_20(a[20], b[20], c[20]);
+    or or_21(a[21], b[21], c[21]);
+    or or_22(a[22], b[22], c[22]);
+    or or_23(a[23], b[23], c[23]);
+    or or_24(a[24], b[24], c[24]);
+    or or_25(a[25], b[25], c[25]);
+    or or_26(a[26], b[26], c[26]);
+    or or_27(a[27], b[27], c[27]);
+    or or_28(a[28], b[28], c[28]);
+    or or_29(a[29], b[29], c[29]);
+    or or_30(a[30], b[30], c[30]);
+    or or_31(a[31], b[31], c[31]);
+endmodule

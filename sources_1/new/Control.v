@@ -24,7 +24,6 @@ module Control(
     input [30:0] op,
     input zero,
     input clk,
-    input rst,
     output PC_CLK,
     output IM_R,
     output RF_W,
@@ -42,7 +41,7 @@ module Control(
     assign m[3] = ~(op[13] | op[14] | op[15] | op[28] | op[29] | op[30]);
     assign m[4] = op[16] | op[17] | op[18] | op[19] | op[20] | op[21] | op[22] | op[23] | op[24] | op[25];
     assign m[5] = ~(op[24] | op[25] | op[26] | op[27] | op[28] | op[29] | op[30]);
-    assign m[6] = op[16] | op[17] | op[21] | op[22] | op[24] | op[25] | op[26] | op[27];
+    assign m[6] = op[16] | op[17] | op[21] | op[24] | op[25] | op[26] | op[27];
     assign m[7] = ~op[29];//~(op[25] | op[26] | op[27] | op[28] | op[29] | op[30]);
     assign m[8] = op[16] | op[17] | op[18] | op[19] | op[20] | op[21] | op[22] | op[23] | op[24];
     assign ALUC[0] = op[2] | op[3] | op[5] | op[7] | op[8] | op[9] | op[11] | op[13] | op[14] | op[19] | op[21] | op[26] | op[27];

@@ -24,11 +24,16 @@ module sccomp_dataflow(
     input clk_in,
     input reset,
     output [31:0] inst,
-    output [31:0] pc
+    output [31:0] pc,
+    output [31:0] d1,
+    output [31:0] d2,
+    output [31:0] a1,
+    output [31:0] a2,
+    output [31:0] w1
     );
     wire [31:0] alu;
     wire [30:0] op;
-    cpu sccpu(clk_in, reset, alu, pc, op, inst);
+    cpu sccpu(clk_in, reset, w1, pc, op, inst, d1, d2, a1, a2, alu);
 endmodule
 
 module cpu(
@@ -37,7 +42,12 @@ module cpu(
     output [31:0] alu_output,
     output [31:0] pc_out,
     output [30:0] op,
-    output [31:0] imem_out
+    output [31:0] imem_out,
+    output [31:0] d1,
+    output [31:0] d2,
+    output [31:0] a1,
+    output [31:0] a2,
+    output [31:0] w1
     );
     wire RF_CLK,RF_W;
     wire [31:0] addr, pc_in, cataddr, m3_out, m2_out, npc_out, branch, ext18_out, dout;
@@ -47,12 +57,15 @@ module cpu(
     wire [3:0] aluc;
     wire [4:0] waddr, im_addr, sele_addr, rs, rt, rd, shamt;
     wire [8:0] m;
-    
-    RegFiles cpu_ref(RF_CLK, rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2);
+    assign d1 = a;
+    assign d2 = b;
+    assign a2 = rdata2;
+    assign a1 = rdata1;
+    RegFiles cpu_ref(RF_CLK, ~rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2, w1);
     iram inst_mem(im_r, pc_out, rs, rt, rd, shamt, imm16, imm26, imem_out);
     alu ALU(a, b, aluc, alu_output, zero, carry, negative, overflow);
     dram dmem(DM_CS, DM_R, DM_W, alu_output, rdata2, dout);
-    pc_reg PC(pc_clk,rst,~rst,pc_in,pc_out);
+    pc_reg PC(pc_clk,~rst,~rst,pc_in,pc_out);
     Adder add(ext18_out, npc_out, branch, );
     Adder NPC(pc_out, 32'h00000004, npc_out, );
     Catenate Addrcat(pc_out[31:28],{imm26, 2'b00},cataddr);

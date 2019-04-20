@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-/*结构级描述实现的寄存器堆，按约束要求，需改由行为级描述实现，已废弃
+/*结构级描述实现的寄存器堆，按约束要求，需改由行为级描述实现，已废弃*/
 module Regfiles(
     input clk,
     input rst,
@@ -63,7 +63,7 @@ module Regfiles(
     decoder32 decoder1(.iData(waddr),.iEna(we),.oData({ena31,ena30,ena29,ena28,ena27,
     ena26,ena25,ena24,ena23,ena22,ena21,ena20,ena19,ena18,ena17,ena16,ena15,ena14,ena13,
     ena12,ena11,ena10,ena9,ena8,ena7,ena6,ena5,ena4,ena3,ena2,ena1,ena0}));
-endmodule*/
+endmodule
 
 module RegFiles(
     input clk,
@@ -74,51 +74,52 @@ module RegFiles(
     input [4:0] waddr,
     input [31:0] wdata,
     output [31:0] rdata1,
-    output [31:0] rdata2
+    output [31:0] rdata2,
+    output [31:0] out
 );
     reg [31:0] array_reg [31:0];
-    reg tmp_reg_a, tmp_reg_b;
-    always @ (posedge clk or posedge rst)
-        if(rst == 1'b0)begin
-            if(we)
-                array_reg[waddr] = waddr == 5'b0 ? 32'b0 : wdata;
-            end
-        else begin
-            array_reg[0] = 32'b0;
-            array_reg[1] = 32'b0;
-            array_reg[2] = 32'b0;
-            array_reg[3] = 32'b0;
-            array_reg[4] = 32'b0;
-            array_reg[5] = 32'b0;
-            array_reg[6] = 32'b0;
-            array_reg[7] = 32'b0;
-            array_reg[8] = 32'b0;
-            array_reg[9] = 32'b0;
-            array_reg[10] = 32'b0;
-            array_reg[11] = 32'b0;
-            array_reg[12] = 32'b0;
-            array_reg[13] = 32'b0;
-            array_reg[14] = 32'b0;
-            array_reg[15] = 32'b0;
-            array_reg[16] = 32'b0;
-            array_reg[17] = 32'b0;
-            array_reg[18] = 32'b0;
-            array_reg[19] = 32'b0;
-            array_reg[20] = 32'b0;
-            array_reg[21] = 32'b0;
-            array_reg[22] = 32'b0;
-            array_reg[23] = 32'b0;
-            array_reg[24] = 32'b0;
-            array_reg[25] = 32'b0;
-            array_reg[26] = 32'b0;
-            array_reg[27] = 32'b0;
-            array_reg[28] = 32'b0;
-            array_reg[29] = 32'b0;
-            array_reg[30] = 32'b0;
-            array_reg[31] = 32'b0;
-            end
+    assign out = array_reg[1];
     assign rdata1 = array_reg[raddr1];
     assign rdata2 = array_reg[raddr2];
+    always @ (negedge clk or negedge rst)
+        if(rst == 1'b1)begin
+            if(we == 1'b1)
+                array_reg[waddr] <= (waddr == 5'b0) ? 32'b0 : wdata;
+            end
+        else begin
+            array_reg[0] <= 32'b0;
+            array_reg[1] <= 32'b0;
+            array_reg[2] <= 32'b0;
+            array_reg[3] <= 32'b0;
+            array_reg[4] <= 32'b0;
+            array_reg[5] <= 32'b0;
+            array_reg[6] <= 32'b0;
+            array_reg[7] <= 32'b0;
+            array_reg[8] <= 32'b0;
+            array_reg[9] <= 32'b0;
+            array_reg[10] <= 32'b0;
+            array_reg[11] <= 32'b0;
+            array_reg[12] <= 32'b0;
+            array_reg[13] <= 32'b0;
+            array_reg[14] <= 32'b0;
+            array_reg[15] <= 32'b0;
+            array_reg[16] <= 32'b0;
+            array_reg[17] <= 32'b0;
+            array_reg[18] <= 32'b0;
+            array_reg[19] <= 32'b0;
+            array_reg[20] <= 32'b0;
+            array_reg[21] <= 32'b0;
+            array_reg[22] <= 32'b0;
+            array_reg[23] <= 32'b0;
+            array_reg[24] <= 32'b0;
+            array_reg[25] <= 32'b0;
+            array_reg[26] <= 32'b0;
+            array_reg[27] <= 32'b0;
+            array_reg[28] <= 32'b0;
+            array_reg[29] <= 32'b0;
+            array_reg[30] <= 32'b0;
+            array_reg[31] <= 32'b0;
+            end
 endmodule
 
 module D_FF(
@@ -200,8 +201,8 @@ module pc_reg(
     output [31:0] data_out
 );
     reg [31:0] in_reg;
-    always @ (posedge clk)
-        if(rst == 1'b1)
+    always @ (negedge clk or negedge rst)
+        if(rst == 1'b0)
             in_reg <= 32'h00400000;
         else if(ena)
             in_reg <= data_in;
@@ -246,9 +247,12 @@ module iram(
     );
     //reg [31:0] data [0:2047];
     //initial $readmemh("e:/Mars/test.txt",data);
+    //reg [31:0] data_output;
+    //always @ (addr)
+    //    data_output = data[addr[31:2] - 30'h00100000];
     wire [31:0] data_output;
-    imem data({addr[31:2] - 30'h00100000}[10:0], data_output);
-    assign imem_out = data_output;
+    imem data(addr[31:2] - 30'h00100000, data_output);
+    assign imem_out = im_r ? data_output : 32'b0;
     assign rd = data_output[15:11];
     assign rt = data_output[20:16];
     assign rs = data_output[25:21];

@@ -31,7 +31,7 @@ module test();
     integer counter = 0;
     initial begin
         file_output = $fopen("result.txt");
-        clk = 1;
+        clk = 0;
         reset = 1;
         #10 reset = 0;
     end
@@ -40,7 +40,7 @@ module test();
         #50 clk = ~clk;
         if(clk == 1'b1)
             begin
-                if(inst == 32'h00000000 && flag == 1'b1)begin
+                if((inst == 32'h00000000 && flag == 1'b1) || inst === 32'hxxxxxxxx)begin
                         $fclose(file_output);
                     end
                 else begin

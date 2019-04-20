@@ -22,10 +22,10 @@
 
 module timing_tb();
     reg  clk,reset;
-    wire [31:0] pc;
+    wire [31:0] pc, d1, d2, w1, a1, a2;
     wire [31:0] inst;
     reg flag;
-    sccomp_dataflow uut(clk, reset, inst, pc);
+    sccomp_dataflow uut(clk, reset, inst, pc, d1, d2, a1, a2, w1);
     initial flag = 1'b0;
     integer file_output;
     integer counter = 0;
