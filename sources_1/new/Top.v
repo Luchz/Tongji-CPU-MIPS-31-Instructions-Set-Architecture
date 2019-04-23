@@ -29,11 +29,12 @@ module sccomp_dataflow(
     output [31:0] d2,
     output [31:0] a1,
     output [31:0] a2,
-    output [31:0] w1
+    output [31:0] w1,
+    output [30:0] op
     );
     wire [31:0] alu;
-    wire [30:0] op;
-    cpu sccpu(clk_in, reset, w1, pc, op, inst, d1, d2, a1, a2, alu);
+    //wire [30:0] op;
+    cpu sccpu(clk_in, reset, alu, pc, op, inst, d1, d2, a1, a2, w1);
 endmodule
 
 module cpu(
@@ -57,11 +58,12 @@ module cpu(
     wire [3:0] aluc;
     wire [4:0] waddr, im_addr, sele_addr, rs, rt, rd, shamt;
     wire [8:0] m;
-    assign d1 = a;
-    assign d2 = b;
-    assign a2 = rdata2;
-    assign a1 = rdata1;
-    RegFiles cpu_ref(RF_CLK, ~rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2, w1);
+    assign a1 = waddr;
+    assign a2 = rt;
+    assign d1 = rdata1;
+    assign d2 = rdata2;
+    assign w1 = wdata;
+    RegFiles cpu_ref(RF_CLK, ~rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2);
     iram inst_mem(im_r, pc_out, rs, rt, rd, shamt, imm16, imm26, imem_out);
     alu ALU(a, b, aluc, alu_output, zero, carry, negative, overflow);
     dram dmem(DM_CS, DM_R, DM_W, alu_output, rdata2, dout);

@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 /*结构级描述实现的寄存器堆，按约束要求，需改由行为级描述实现，已废弃*/
-module Regfiles(
+/*module Regfiles(
     input clk,
     input rst,
     input we,
@@ -63,7 +63,7 @@ module Regfiles(
     decoder32 decoder1(.iData(waddr),.iEna(we),.oData({ena31,ena30,ena29,ena28,ena27,
     ena26,ena25,ena24,ena23,ena22,ena21,ena20,ena19,ena18,ena17,ena16,ena15,ena14,ena13,
     ena12,ena11,ena10,ena9,ena8,ena7,ena6,ena5,ena4,ena3,ena2,ena1,ena0}));
-endmodule
+endmodule*/
 
 module RegFiles(
     input clk,
@@ -74,13 +74,17 @@ module RegFiles(
     input [4:0] waddr,
     input [31:0] wdata,
     output [31:0] rdata1,
-    output [31:0] rdata2,
-    output [31:0] out
+    output [31:0] rdata2
 );
     reg [31:0] array_reg [31:0];
-    assign out = array_reg[1];
-    assign rdata1 = array_reg[raddr1];
-    assign rdata2 = array_reg[raddr2];
+    reg [31:0] tmp_a, tmp_b;
+    assign rdata1 = tmp_a;
+    assign rdata2 = tmp_b;
+    always @ (posedge clk)
+        begin
+            tmp_a <= array_reg[raddr1];
+            tmp_b <= array_reg[raddr2];
+        end
     always @ (negedge clk or negedge rst)
         if(rst == 1'b1)begin
             if(we == 1'b1)
@@ -219,7 +223,7 @@ module dram(
 );
     reg [31:0] data_inside [0:2047];
     reg [31:0] data_output;
-    always @ (posedge clk)
+    always @ (negedge clk)
     begin
         if(wena == 1)
             data_inside[addr[31:2] - 32'h4004000] <= data_in;
@@ -249,10 +253,10 @@ module iram(
     //initial $readmemh("e:/Mars/test.txt",data);
     //reg [31:0] data_output;
     //always @ (addr)
-    //    data_output = data[addr[31:2] - 30'h00100000];
+    //   data_output = data[addr[31:2] - 30'h00100000];
     wire [31:0] data_output;
     imem data(addr[31:2] - 30'h00100000, data_output);
-    assign imem_out = im_r ? data_output : 32'b0;
+    assign imem_out = data_output;
     assign rd = data_output[15:11];
     assign rt = data_output[20:16];
     assign rs = data_output[25:21];

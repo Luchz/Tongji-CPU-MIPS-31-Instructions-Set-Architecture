@@ -40,7 +40,8 @@ module test();
         #50 clk = ~clk;
         if(clk == 1'b1)
             begin
-                if((inst == 32'h00000000 && flag == 1'b1) || inst === 32'hxxxxxxxx)begin
+                //if((inst == 32'h00000000 && counter != 0 && flag == 1'b1) || inst === 32'hxxxxxxxx)begin
+                if(counter >= 20 && inst == 3'h00000000)begin
                         $fclose(file_output);
                     end
                 else begin
