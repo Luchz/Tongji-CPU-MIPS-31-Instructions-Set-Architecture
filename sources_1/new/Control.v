@@ -54,5 +54,5 @@ module Control(
     assign RF_CLK = clk;
     assign RF_W = ~(op[25] | op[26] | op[27] | op[28] | op[30]);
     assign PC_CLK = clk;
-    assign IM_R = clk;
+    assign IM_R = 1'b1;
 endmodule
