@@ -75,12 +75,12 @@ module cpu(
     assign w2 = waddr;
     assign rf_w = RF_W;
     assign rf_clk = RF_CLK;
-    RegFiles cpu_ref(RF_CLK, ~rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2, r1,r2);
+    RegFiles cpu_ref(RF_CLK, rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2, r1,r2);
     //Regfiles cpu_ref(~RF_CLK, ~rst, RF_W, rs, rt, waddr, wdata, rdata1, rdata2, r1, r2);
     iram inst_mem(im_r, pc_out, rs, rt, rd, shamt, imm16, imm26, imem_out);
     alu ALU(a, b, aluc, alu_output, zero, carry, negative, overflow);
     dram dmem(DM_CS, DM_R, DM_W, alu_output, rdata2, dout);
-    behav_reg PC(pc_clk,~rst,~rst,pc_in,pc_out);
+    behav_reg PC(pc_clk,rst,~rst,pc_in,pc_out);
     behav_reg data_reg(~pc_clk,~rst, ~rst, wdata, reg_wdata);
     behav_reg addr_reg(~pc_clk, ~rst, ~rst, waddr, reg_waddr); 
     Adder add(ext18_out, npc_out, branch, );

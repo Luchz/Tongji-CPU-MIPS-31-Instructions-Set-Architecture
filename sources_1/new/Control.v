@@ -51,8 +51,8 @@ module Control(
     assign DM_CS = (op[24] | op[25]) & clk;
     assign DM_W = op[25];
     assign DM_R = op[24];
-    assign RF_CLK = clk;
+    assign RF_CLK = ~clk;
     assign RF_W = ~(op[25] | op[26] | op[27] | op[28] | op[30]);
-    assign PC_CLK = clk;
+    assign PC_CLK = ~clk;
     assign IM_R = 1'b1;
 endmodule

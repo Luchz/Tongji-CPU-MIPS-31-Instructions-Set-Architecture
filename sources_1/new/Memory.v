@@ -77,15 +77,18 @@ module RegFiles(
     input [4:0] raddr2,
     input [4:0] waddr,
     input [31:0] wdata,
-    output reg [31:0] rdata1,
-    output reg [31:0] rdata2,
+    output [31:0] rdata1,
+    output [31:0] rdata2,
     output [31:0] r1,
     output [31:0] r2
 );
-    (* DONT_TOUCH="TURE|FALSE" *)reg [31:0] array_reg [31:0];
+    reg [31:0] array_reg [31:0];
     reg [31:0] tmp_a, tmp_b;
+    integer i;
     //assign rdata1 = (raddr1 == 0) ? 32'h0 : array_reg[raddr1];
     //assign rdata2 = (raddr2 == 0) ? 32'h0 : array_reg[raddr2];
+    assign rdata1 = array_reg[raddr1];
+    assign rdata2 = array_reg[raddr2];
     /*always @ (posedge clk)
         begin
             rdata1 = array_reg[raddr1];
@@ -94,17 +97,14 @@ module RegFiles(
         
     assign r1 = array_reg[1];
     assign r2 = array_reg[2];
-    always @ (*)
+    /*always @ (*)
         begin
             rdata1 = (raddr1 == 0) ? 32'h0 : array_reg[raddr1];
             rdata2 = (raddr2 == 0) ? 32'h0 : array_reg[raddr2];
-        end
-    (* DONT_TOUCH="TURE|FALSE" *)always @ (negedge clk or negedge rst)
+        end*/
+    always @ (posedge clk or posedge rst)
+    begin
         if(rst == 1'b1)begin
-            if(we == 1'b1)
-                array_reg[waddr] <= wdata;
-            end
-        else begin
             array_reg[0] <= 32'b0;
             array_reg[1] <= 32'b0;
             array_reg[2] <= 32'b0;
@@ -137,8 +137,34 @@ module RegFiles(
             array_reg[29] <= 32'b0;
             array_reg[30] <= 32'b0;
             array_reg[31] <= 32'b0;
+        end
+        else begin
+            if(we == 1'b1 && waddr != 5'h0)
+                array_reg[waddr] <= wdata;
             end
+        end
 endmodule
+
+/*module RegFiles(
+    input clk,
+    input rst,
+    input we,
+    input [4:0] raddr1,
+    input [4:0] raddr2,
+    input [4:0] waddr,
+    input [31:0] wdata,
+    output [31:0] rdata1,
+    output [31:0] rdata2,
+    output [31:0] r1,
+    output [31:0] r2
+);
+    integer i;
+    always @ (posedge clk or posedge rst)
+        if(rst == 1'b1)
+            i <= 0;
+        else i <= i+1;
+    assign r1 = i;
+endmodule*/
 
 module D_FF(
     input CLK,
@@ -219,8 +245,8 @@ module behav_reg(
     output [31:0] data_out
 );
     reg [31:0] in_reg;
-    always @ (negedge clk or negedge rst)
-        if(rst == 1'b0)
+    always @ (posedge clk or posedge rst)
+        if(rst == 1'b1)
             in_reg <= 32'h00400000;
         else if(ena)
             in_reg <= data_in;
