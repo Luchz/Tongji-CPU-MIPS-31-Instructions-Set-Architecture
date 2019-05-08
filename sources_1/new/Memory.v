@@ -78,9 +78,7 @@ module RegFiles(
     input [4:0] waddr,
     input [31:0] wdata,
     output [31:0] rdata1,
-    output [31:0] rdata2,
-    output [31:0] r1,
-    output [31:0] r2
+    output [31:0] rdata2
 );
     reg [31:0] array_reg [31:0];
     reg [31:0] tmp_a, tmp_b;
@@ -95,8 +93,8 @@ module RegFiles(
             rdata2 = array_reg[raddr2];
         end*/
         
-    assign r1 = array_reg[1];
-    assign r2 = array_reg[2];
+    //assign r1 = array_reg[1];
+    //assign r2 = array_reg[2];
     /*always @ (*)
         begin
             rdata1 = (raddr1 == 0) ? 32'h0 : array_reg[raddr1];
@@ -289,13 +287,13 @@ module iram(
 	output [25:0] imm26,
 	output [31:0] imem_out
     );
-    //reg [31:0] data [0:2047];
-    //initial $readmemh("e:/Mars/test.txt",data);
-    //reg [31:0] data_output;
-    //always @ (addr)
-    //   data_output = data[addr[31:2] - 30'h00100000];
-    wire [31:0] data_output;
-    imem data(addr[31:2] - 30'h00100000, data_output);
+    reg [31:0] data [0:2047];
+    initial $readmemh("e:/Mars/test.txt",data);
+    reg [31:0] data_output;
+    always @ (addr)
+       data_output = data[addr[31:2] - 30'h00100000];
+    //wire [31:0] data_output;
+    //imem data(addr[31:2] - 30'h00100000, data_output);
     assign imem_out = data_output;
     assign rd = data_output[15:11];
     assign rt = data_output[20:16];

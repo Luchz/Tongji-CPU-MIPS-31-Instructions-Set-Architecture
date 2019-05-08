@@ -22,23 +22,23 @@
 
 module timing_tb();
     reg  clk,reset;
-    wire [31:0] pc, d1, d2, w1, w2, a1, a2, r1, r2;
-    wire [31:0] inst;
-    wire [30:0] op;
-    wire c,w;
-    reg flag;
-    sccomp_dataflow uut(clk, reset, inst, pc, d1, d2, a1, a2, w1, w2, r1, r2, w, c);
-    initial flag = 1'b0;
-    integer file_output;
-    integer counter = 0;
+    //wire [31:0] pc, d1, d2, w1, w2, a1, a2, r1, r2;
+    wire [31:0] inst, pc;
+    //wire [30:0] op;
+    //wire c,w;
+    //reg flag;
+    sccomp_dataflow uut(clk, reset, inst, pc);
+    //initial flag = 1'b0;
+    //integer file_output;
+    //integer counter = 0;
     initial begin
         clk = 0;
         reset = 1;
-        #10 reset = 0;
+        #9 reset = 0;
     end
     
    always begin
-        #50 clk = ~clk;
+        #11 clk = ~clk;
    end
 endmodule
 

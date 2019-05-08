@@ -24,10 +24,11 @@ module test();
     reg  clk,reset;
     wire [31:0] pc;
     wire [31:0] inst;
-    reg flag;
-    wire [31:0] a1, a2, d1, d2, w1, r1, r2;
-    sccomp_dataflow uut(clk, reset, inst, pc, d1, d2, a1, a2, w1, r1, r2);
-    initial flag = 1'b0;
+    //reg flag;
+    //wire [31:0] a1, a2, d1, d2, w1, r1, r2;
+    //sccomp_dataflow uut(clk, reset, inst, pc, d1, d2, a1, a2, w1, r1, r2);
+    sccomp_dataflow uut(clk, reset, inst, pc);
+    //initial flag = 1'b0;
     integer file_output;
     integer counter = 0;
     initial begin
@@ -46,9 +47,9 @@ module test();
                         $fclose(file_output);
                     end
                 else begin
-                    if(inst == 32'h00000000)
+                    /*if(inst == 32'h00000000)
                         flag = 1'b1;
-                    else flag = 1'b0;
+                    else flag = 1'b0;*/
                     counter = counter + 1;
                     $fdisplay(file_output, "pc: %h", pc);
                     $fdisplay(file_output, "instr: %h", inst);

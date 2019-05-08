@@ -24,25 +24,26 @@ module seg_top(
     output [7:0] o_seg,
     output [7:0] o_sel
     );
-    reg [31:0] i_data;
-    reg cs;
+    reg cs, clk;
     integer count;
+    wire [31:0] pc;
     always @ (posedge clk_in or posedge reset)
         if(reset == 1'b1)
         begin
-            i_data <= 32'b0;
+            clk <= 0;
             count <= 0;
             cs <= 0;
         end
-        else begin if(count < 100000000 - 1)begin
+        else begin if(count < 1000000 - 1)begin
                 count <= count + 1;
                 cs <= 0;end
             else begin
-                i_data <= i_data + 32'b1;
+                clk <= ~clk;
                 count <= 0;
                 cs <= 1;end
             end
-    seg7x16 seg_inst(clk_in, reset, cs, i_data, o_seg, o_sel);
+    seg7x16 seg_inst(clk_in, reset, cs, pc, o_seg, o_sel);
+    //sccomp_dataflow uut(clk, reset, inst, pc);
 endmodule
 
 module seg7x16(
